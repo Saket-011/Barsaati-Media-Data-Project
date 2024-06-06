@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitter Trending Topics</title>
+</head>
+<body>
+    <h1>Twitter Trending Topics</h1>
+    <button onclick="fetchTrending()">Fetch Trending Topics</button>
+    <div id="results"></div>
+    
+    <script>
+        function fetchTrending() {
+            fetch('/fetch-trending')
+                .then(response => response.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = `
+                        <p><strong>These are the most happening topics as on ${new Date(data.end_time).toLocaleString()}:</strong></p>
+                        <p><strong>Trend 1:</strong> ${data.trend1}</p>
+                        <p><strong>Trend 2:</strong> ${data.trend2}</p>
+                        <p><strong>Trend 3:</strong> ${data.trend3}</p>
+                        <p><strong>Trend 4:</strong> ${data.trend4}</p>
+                        <p><strong>Trend 5:</strong> ${data.trend5}</p>
+                        <p><strong>The IP address used for this query was ${data.proxy_ip}.</strong></p>
+                        <p><strong>Here’s a JSON extract of this record from the MongoDB:</strong></p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                });
+        }
+    </script>
+</body>
+</html>
